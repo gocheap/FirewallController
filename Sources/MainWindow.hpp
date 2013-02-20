@@ -4,7 +4,9 @@
 #include <QWidget>
 #include <QSystemTrayIcon>
 
-class FirewallController;
+#include <netfw.h>
+#include <windows.h>
+
 class QMenu;
 class QSystemTrayIcon;
 class QAction;
@@ -22,6 +24,14 @@ private:
     void createTrayIcon();
     void createMenu();
     void createActions();
+    bool acquireFirewallPolicy();
+
+    NET_FW_ACTION getDefaultInboundAction();
+    NET_FW_ACTION getDefaultOutboundAction();
+    void setDefaultInboundAction(NET_FW_ACTION action);
+    void setDefaultOutboundAction(NET_FW_ACTION action);
+    bool isFirewallEnabled();
+    void setFirewallEnabled(bool enabled);
 
 private slots:
     void updateCurrentState();
@@ -34,8 +44,6 @@ private slots:
     void menuInboundBlock();
 
 private:
-    FirewallController* m_controller;
-
     QSystemTrayIcon* m_trayIcon;
 
     QMenu* m_contextMenu;
@@ -51,6 +59,9 @@ private:
     QActionGroup* m_groupFirewall;
     QActionGroup* m_groupOutbound;
     QActionGroup* m_groupInbound;
+
+    INetFwPolicy2* m_fwPolicy;
+    NET_FW_PROFILE_TYPE2 m_currProfile;
 };
 
 #endif // MAINWINDOW_HPP
