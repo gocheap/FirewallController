@@ -6,6 +6,8 @@
 #include <QAction>
 #include <QActionGroup>
 #include <QDebug>
+#include <QIcon>
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent)
@@ -37,8 +39,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::createTrayIcon()
 {
+
+    HICON iconHandle = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(2000));
+    QPixmap iconPixmap = QPixmap::fromWinHICON(iconHandle);
+    DestroyIcon(iconHandle);
+
     m_trayIcon = new QSystemTrayIcon(this);
-    m_trayIcon->setIcon(QIcon(":/res/icons/network-firewall.png"));
+    m_trayIcon->setIcon(QIcon(iconPixmap));
     m_trayIcon->setContextMenu(m_contextMenu);
     m_trayIcon->setToolTip("Firewall Control");
     m_trayIcon->show();

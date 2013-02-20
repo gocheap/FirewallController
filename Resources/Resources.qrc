@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/res">
-        <file>icons/network-firewall.png</file>
-    </qresource>
-</RCC>

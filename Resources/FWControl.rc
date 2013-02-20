@@ -1,4 +1,9 @@
 #include <windows.h>
 
-ID_ICON ICON DISCARDABLE "Icons/app_icon.ico"
+#define IDI_APP_ICON	1
+#define IDI_TRAY_ICON	2000
+
+IDI_APP_ICON ICON "Icons/app_icon.ico"
+IDI_TRAY_ICON ICON "Icons/tray_icon.ico"
+
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "FWControl.exe.manifest"
