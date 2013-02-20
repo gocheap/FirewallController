@@ -4,12 +4,12 @@ TEMPLATE = app
 
 TARGET = FirewallController
 
-release: {
+release {
     DESTDIR = ../Binary/Release
     OBJECTS_DIR = ../Build/Release
 }
 
-debug: {
+debug {
     DESTDIR = ../Binary/Debug
     OBJECTS_DIR = ../Build/Debug
 }
