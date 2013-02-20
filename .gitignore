@@ -1,7 +1,3 @@
 Binary/
 Build/
-*.sdf
-*.suo
-*.opensdf
 *.user
-*.aps
