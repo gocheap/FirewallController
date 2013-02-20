@@ -27,9 +27,7 @@ LIBS += \
 
 SOURCES += \
     Main.cpp \
-    MainWindow.cpp \
-    FirewallController.cpp
+    MainWindow.cpp
 
 HEADERS += \
-    MainWindow.hpp \
-    FirewallController.hpp
+    MainWindow.hpp
