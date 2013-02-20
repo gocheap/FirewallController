@@ -1,4 +1,4 @@
 #include <windows.h>
 
-//ID_ICON ICON DISCARDABLE "coolapp_desktop.ico"
+ID_ICON ICON DISCARDABLE "Icons/app_icon.ico"
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "FWControl.exe.manifest"
