@@ -42,6 +42,7 @@ private slots:
     void menuOutboundBlock();
     void menuInboundAllow();
     void menuInboundBlock();
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     QSystemTrayIcon* m_trayIcon;
