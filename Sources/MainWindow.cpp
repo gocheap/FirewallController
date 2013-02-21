@@ -153,7 +153,7 @@ bool MainWindow::acquireFirewallPolicy()
     HRESULT res = S_OK;
 
     if (m_fwPolicy) {
-        qDebug() << "Something goes wrong, m_policy not null";
+        qDebug() << "Something goes wrong, m_fwPolicy not null";
         return false;
     }
 
