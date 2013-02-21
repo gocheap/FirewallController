@@ -1,3 +1,4 @@
 Binary/
 Build/
 *.user
+*.user.*
