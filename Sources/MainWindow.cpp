@@ -95,52 +95,33 @@ void MainWindow::createMenu()
 
 void MainWindow::createActions()
 {
-    // Firewall
-    m_actFirewallDisable = new QAction(this);
-    m_actFirewallDisable->setCheckable(true);
-    m_actFirewallDisable->setText("Firewall Disable");
-    QObject::connect(m_actFirewallDisable, SIGNAL(triggered()), SLOT(menuFirewallDisable()));
+#define CREATE_ACTION(obj, text, slot_func) \
+            obj = new QAction(this);        \
+            obj->setCheckable(true);        \
+            obj->setText(QString(text));    \
+            QObject::connect(obj, SIGNAL(triggered()), this, SLOT(slot_func()))
 
-    m_actFirewallEnable = new QAction(this);
-    m_actFirewallEnable->setCheckable(true);
-    m_actFirewallEnable->setText("Firewall Enable");
-    QObject::connect(m_actFirewallEnable, SIGNAL(triggered()), SLOT(menuFirewallEnable()));
+    CREATE_ACTION(m_actFirewallDisable, "Firewall Disable", menuFirewallDisable);
+    CREATE_ACTION(m_actFirewallEnable,  "Firewall Enable",  menuFirewallEnable);
+    CREATE_ACTION(m_actOutboundBlock,   "Outbound Block",   menuOutboundBlock);
+    CREATE_ACTION(m_actOutboundAllow,   "Outbound Allow",   menuOutboundAllow);
+    CREATE_ACTION(m_actInboundBlock,    "Inbound Block",    menuInboundBlock);
+    CREATE_ACTION(m_actInboundAllow,    "Inbound Allow",    menuInboundAllow);
+
+#undef CREATE_ACTION
 
     m_groupFirewall = new QActionGroup(this);
     m_groupFirewall->addAction(m_actFirewallDisable);
     m_groupFirewall->addAction(m_actFirewallEnable);
 
-    // Outbound
-    m_actOutboundBlock = new QAction(this);
-    m_actOutboundBlock->setCheckable(true);
-    m_actOutboundBlock->setText("Outbound Block");
-    QObject::connect(m_actOutboundBlock, SIGNAL(triggered()), SLOT(menuOutboundBlock()));
-
-    m_actOutboundAllow = new QAction(this);
-    m_actOutboundAllow->setCheckable(true);
-    m_actOutboundAllow->setText("Outbound Allow");
-    QObject::connect(m_actOutboundAllow, SIGNAL(triggered()), SLOT(menuOutboundAllow()));
-
     m_groupOutbound = new QActionGroup(this);
     m_groupOutbound->addAction(m_actOutboundBlock);
     m_groupOutbound->addAction(m_actOutboundAllow);
-
-    // Inbound
-    m_actInboundBlock = new QAction(this);
-    m_actInboundBlock->setCheckable(true);
-    m_actInboundBlock->setText("Inbound Block");
-    QObject::connect(m_actInboundBlock, SIGNAL(triggered()), SLOT(menuInboundBlock()));
-
-    m_actInboundAllow = new QAction(this);
-    m_actInboundAllow->setCheckable(true);
-    m_actInboundAllow->setText("Inbound Allow");
-    QObject::connect(m_actInboundAllow, SIGNAL(triggered()), SLOT(menuInboundAllow()));
 
     m_groupInbound = new QActionGroup(this);
     m_groupInbound->addAction(m_actInboundBlock);
     m_groupInbound->addAction(m_actInboundAllow);
 
-    // Exit
     m_actExit = new QAction(this);
     m_actExit->setCheckable(false);
     m_actExit->setText("Exit");
