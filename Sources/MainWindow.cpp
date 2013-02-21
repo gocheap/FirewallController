@@ -35,6 +35,8 @@ MainWindow::~MainWindow()
         m_fwPolicy->Release();
         m_fwPolicy = NULL;
     }
+
+    CoUninitialize();
 }
 
 void MainWindow::createTrayIcon()
