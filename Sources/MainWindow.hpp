@@ -8,9 +8,10 @@
 #include <windows.h>
 
 class QMenu;
-class QSystemTrayIcon;
 class QAction;
 class QActionGroup;
+
+typedef QSystemTrayIcon::ActivationReason ActivationReason;
 
 class MainWindow : public QWidget
 {
@@ -42,7 +43,7 @@ private slots:
     void menuOutboundBlock();
     void menuInboundAllow();
     void menuInboundBlock();
-    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    void trayIconActivated(ActivationReason reason);
 
 private:
     QSystemTrayIcon* m_trayIcon;

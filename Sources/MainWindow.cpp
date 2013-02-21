@@ -49,7 +49,7 @@ void MainWindow::createTrayIcon()
     m_trayIcon->setToolTip("Firewall Control");
     m_trayIcon->show();
 
-    QObject::connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    QObject::connect(m_trayIcon, SIGNAL(activated(ActivationReason)), this, SLOT(trayIconActivated(ActivationReason)));
 
     DestroyIcon(iconHandle);
 }
@@ -262,7 +262,7 @@ void MainWindow::menuInboundBlock()
     setDefaultInboundAction(NET_FW_ACTION_BLOCK);
 }
 
-void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void MainWindow::trayIconActivated(ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger) {
         if (m_trayIcon->contextMenu()) {
