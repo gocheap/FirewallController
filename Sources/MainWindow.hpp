@@ -4,8 +4,9 @@
 #include <QWidget>
 #include <QSystemTrayIcon>
 
-#include <netfw.h>
+#define _WIN32_DCOM
 #include <windows.h>
+#include <netfw.h>
 
 class QMenu;
 class QAction;

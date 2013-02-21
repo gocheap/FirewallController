@@ -1,12 +1,12 @@
 #include "MainWindow.hpp"
 
-#include <QMessageBox>
-#include <QApplication>
-#include <QMenu>
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 #include <QDebug>
 #include <QIcon>
+#include <QMenu>
+#include <QMessageBox>
 #include <QPixmap>
 
 MainWindow::MainWindow(QWidget* parent)
@@ -49,7 +49,7 @@ void MainWindow::createTrayIcon()
     m_trayIcon->setToolTip("Firewall Control");
     m_trayIcon->show();
 
-    QObject::connect(m_trayIcon, SIGNAL(activated(ActivationReason)), this, SLOT(trayIconActivated(ActivationReason)));
+    connect(m_trayIcon, SIGNAL(activated(ActivationReason)), SLOT(trayIconActivated(ActivationReason)));
 
     DestroyIcon(iconHandle);
 }
@@ -80,8 +80,6 @@ void MainWindow::createMenu()
 {
     m_contextMenu = new QMenu(this);
 
-    m_contextMenu->setTitle("Firewall settings");
-
     m_contextMenu->addAction(m_actFirewallEnable);
     m_contextMenu->addAction(m_actFirewallDisable);
     m_contextMenu->addSeparator();
@@ -93,7 +91,7 @@ void MainWindow::createMenu()
     m_contextMenu->addSeparator();
     m_contextMenu->addAction(m_actExit);
 
-    QObject::connect(m_contextMenu, SIGNAL(aboutToShow()), this, SLOT(updateCurrentState()));
+    connect(m_contextMenu, SIGNAL(aboutToShow()), SLOT(updateCurrentState()));
 }
 
 void MainWindow::createActions()
@@ -102,7 +100,7 @@ void MainWindow::createActions()
             obj = new QAction(this);        \
             obj->setCheckable(true);        \
             obj->setText(QString(text));    \
-            QObject::connect(obj, SIGNAL(triggered()), this, SLOT(slot_func()))
+            connect(obj, SIGNAL(triggered()), SLOT(slot_func()))
 
     CREATE_ACTION(m_actFirewallDisable, "Firewall Disable", menuFirewallDisable);
     CREATE_ACTION(m_actFirewallEnable,  "Firewall Enable",  menuFirewallEnable);
@@ -128,7 +126,7 @@ void MainWindow::createActions()
     m_actExit = new QAction(this);
     m_actExit->setCheckable(false);
     m_actExit->setText("Exit");
-    QObject::connect(m_actExit, SIGNAL(triggered()), SLOT(menuExit()));
+    connect(m_actExit, SIGNAL(triggered()), SLOT(menuExit()));
 
 }
 
@@ -148,8 +146,7 @@ bool MainWindow::acquireFirewallPolicy()
         return false;
     }
 
-    res = CoCreateInstance(__uuidof(NetFwPolicy2), NULL, CLSCTX_INPROC_SERVER,
-                           __uuidof(INetFwPolicy2), reinterpret_cast<void**>(&m_fwPolicy));
+    res = CoCreateInstance(CLSID_NetFwPolicy2, NULL, CLSCTX_INPROC_SERVER, IID_INetFwPolicy2, (void**)&m_fwPolicy);
 
     if (FAILED(res)) {
         qDebug() << "Could not initialize instance of INetFwPolicy2";
