@@ -49,7 +49,8 @@ void MainWindow::createTrayIcon()
     m_trayIcon->setToolTip("Firewall Control");
     m_trayIcon->show();
 
-    connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
     DestroyIcon(iconHandle);
 }
@@ -146,7 +147,8 @@ bool MainWindow::acquireFirewallPolicy()
         return false;
     }
 
-    res = CoCreateInstance(CLSID_NetFwPolicy2, NULL, CLSCTX_INPROC_SERVER, IID_INetFwPolicy2, (void**)&m_fwPolicy);
+    res = CoCreateInstance(CLSID_NetFwPolicy2, NULL, CLSCTX_INPROC_SERVER,
+                           IID_INetFwPolicy2, (void**)&m_fwPolicy);
 
     if (FAILED(res)) {
         qDebug() << "Could not initialize instance of INetFwPolicy2";
