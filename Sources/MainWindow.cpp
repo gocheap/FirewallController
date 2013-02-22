@@ -194,7 +194,7 @@ void MainWindow::setDefaultOutboundAction(NET_FW_ACTION action)
         HRESULT res = m_fwPolicy->put_DefaultOutboundAction(m_currProfile, action);
 
         if (FAILED(res))
-            qDebug() << "Error", "Failed put_DefaultOutboundAction";
+            qDebug() << "Failed put_DefaultOutboundAction";
     }
 }
 
