@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent)
     , m_fwPolicy(NULL)
     , m_currProfile(NET_FW_PROFILE2_PUBLIC)
+    , m_iconRed(NULL)
+    , m_iconGreen(NULL)
+    , m_iconYellow(NULL)
 {
     if (!acquireFirewallPolicy() || !m_fwPolicy) {
         QMessageBox::critical(this, "Fatal Error", "Could not acquire firewall policy");
@@ -21,8 +24,8 @@ MainWindow::MainWindow(QWidget* parent)
 
     createActions();
     createMenu();
-    updateCurrentState();
     createTrayIcon();
+    updateCurrentState();
 
     resize(1, 1);
     move(0, 0);
@@ -37,14 +40,29 @@ MainWindow::~MainWindow()
     }
 
     CoUninitialize();
+
+    if (m_iconRed)
+        delete m_iconRed;
+
+    if (m_iconGreen)
+        delete m_iconGreen;
+
+    if (m_iconYellow)
+        delete m_iconYellow;
 }
 
 void MainWindow::createTrayIcon()
 {
-    HICON iconHandle = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(2000));
+    HICON iconRedHandle = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(2000));
+    HICON iconGreenHandle = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(2001));
+    HICON iconYellowHandle = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(2002));
+
+    m_iconRed = new QIcon(QPixmap::fromWinHICON(iconRedHandle));
+    m_iconGreen = new QIcon(QPixmap::fromWinHICON(iconGreenHandle));
+    m_iconYellow = new QIcon(QPixmap::fromWinHICON(iconYellowHandle));
 
     m_trayIcon = new QSystemTrayIcon(this);
-    m_trayIcon->setIcon(QIcon(QPixmap::fromWinHICON(iconHandle)));
+    m_trayIcon->setIcon(*m_iconRed);
     m_trayIcon->setContextMenu(m_contextMenu);
     m_trayIcon->setToolTip("Firewall Control");
     m_trayIcon->show();
@@ -52,7 +70,9 @@ void MainWindow::createTrayIcon()
     connect(m_trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
-    DestroyIcon(iconHandle);
+    DestroyIcon(iconRedHandle);
+    DestroyIcon(iconGreenHandle);
+    DestroyIcon(iconYellowHandle);
 }
 
 void MainWindow::updateCurrentState()
@@ -75,6 +95,17 @@ void MainWindow::updateCurrentState()
         m_actOutboundAllow->setChecked(true);
     else
         m_actOutboundBlock->setChecked(true);
+
+
+    bool allowIn = (inboundAction == NET_FW_ACTION_ALLOW);
+    bool allowOut = (outboundAction == NET_FW_ACTION_ALLOW);
+
+    if (!allowIn && !allowOut)
+        m_trayIcon->setIcon(*m_iconRed);
+    else if (allowIn && allowOut)
+        m_trayIcon->setIcon(*m_iconGreen);
+    else
+        m_trayIcon->setIcon(*m_iconYellow);
 }
 
 void MainWindow::createMenu()
@@ -234,31 +265,37 @@ void MainWindow::menuExit()
 void MainWindow::menuFirewallEnable()
 {
     setFirewallEnabled(true);
+    updateCurrentState();
 }
 
 void MainWindow::menuFirewallDisable()
 {
     setFirewallEnabled(false);
+    updateCurrentState();
 }
 
 void MainWindow::menuOutboundAllow()
 {
     setDefaultOutboundAction(NET_FW_ACTION_ALLOW);
+    updateCurrentState();
 }
 
 void MainWindow::menuOutboundBlock()
 {
     setDefaultOutboundAction(NET_FW_ACTION_BLOCK);
+    updateCurrentState();
 }
 
 void MainWindow::menuInboundAllow()
 {
     setDefaultInboundAction(NET_FW_ACTION_ALLOW);
+    updateCurrentState();
 }
 
 void MainWindow::menuInboundBlock()
 {
     setDefaultInboundAction(NET_FW_ACTION_BLOCK);
+    updateCurrentState();
 }
 
 void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason)

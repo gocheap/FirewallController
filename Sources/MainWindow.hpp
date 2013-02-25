@@ -12,6 +12,7 @@ class QMenu;
 class QSystemTrayIcon;
 class QAction;
 class QActionGroup;
+class QIcon;
 
 class MainWindow : public QWidget
 {
@@ -47,6 +48,10 @@ private slots:
 
 private:
     QSystemTrayIcon* m_trayIcon;
+
+    QIcon* m_iconGreen;
+    QIcon* m_iconYellow;
+    QIcon* m_iconRed;
 
     QMenu* m_contextMenu;
 

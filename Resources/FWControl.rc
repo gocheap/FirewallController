@@ -1,9 +1,15 @@
 #include <windows.h>
 
-#define IDI_APP_ICON	1
-#define IDI_TRAY_ICON	2000
+#define IDI_APP_ICON 1
+
+#define IDI_TRAY_ICON_RED		2000
+#define IDI_TRAY_ICON_GREEN		2001
+#define IDI_TRAY_ICON_YELLOW	2002
 
 IDI_APP_ICON ICON "Icons/app_icon.ico"
-IDI_TRAY_ICON ICON "Icons/tray_icon.ico"
+
+IDI_TRAY_ICON_RED ICON 		"Icons/tray_icon_red.ico"
+IDI_TRAY_ICON_GREEN ICON 	"Icons/tray_icon_green.ico"
+IDI_TRAY_ICON_YELLOW ICON 	"Icons/tray_icon_yellow.ico"
 
 CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "FWControl.exe.manifest"
